@@ -33,6 +33,21 @@ class Admin::WordsController < ApplicationController
     end
   end
 
+  def import
+    if params[:file].present?
+      Word.import params[:file]
+      flash[:success] = t :word_created
+      redirect_to admin_words_path
+    else
+      flash[:alert] = "fail"
+      @categories = Category.all
+      @word = Word.new
+      @word.choices.new
+      render :new
+    end
+
+  end
+
   private
   def word_params
     params.require(:word).permit(:content, :pronunciation, :category_id, choices_attributes: [:id, :content, :correct, :_destroy])

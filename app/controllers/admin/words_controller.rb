@@ -37,9 +37,9 @@ class Admin::WordsController < ApplicationController
     if params[:file].present?
       Word.import params[:file]
       flash[:success] = t :word_created
-      redirect_to admin_words_path
+      redirect_to words_path
     else
-      flash[:alert] = "fail"
+      flash[:alert] = t "empty"
       @categories = Category.all
       @word = Word.new
       @word.choices.new

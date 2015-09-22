@@ -21,9 +21,11 @@
       <%= f.submit t("submit"), class: "btn btn-primary" %>
     <% end %>
 
+    <div class="row">
     <%= form_tag import_admin_words_path, multipart: true do %>
         <%= file_field_tag :file %>
         <%= submit_tag "Import" %>
       <% end %>
+    </div>
   </div>
 </div>

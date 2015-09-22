@@ -71,3 +71,5 @@ en:
   view: "View my profile"
   unfollow: "Unfollow"
   follow: "Follow"
+  unknownfile: "Unknown file type"
+  empty: "Empty file"

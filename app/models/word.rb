@@ -12,31 +12,14 @@ class Word < ActiveRecord::Base
 
   OPTION = {learned: :learned, not_learned: :not_learned, all: :all}
 
-  def self.import(file)
-    byebug
-    spreadsheet = open_spreadsheet(file)
-    byebug
-    header = spreadsheet.row(1)
-    byebug
-    (2..spreadsheet.last_row).each do |i|
-      byebug
-      row = Hash[[header, spreadsheet.row(i)].transpose]
-      product = find_by_id(row["id"]) || new
-      product.attributes = row.to_hash.slice(*accessible_attributes)
-      product.save!
-      end
-  end
-
-  def self.open_spreadsheet(file)
-    byebug
+  def self.import file
     if File.extname(file.original_filename)
-      CSV.new file.path
+      CSV.new(file.path)
+      CSV.foreach(file.path, headers: true) do |row|
+        Word.create! row.to_hash
+      end
     else
-      nil
+      raise t "unknownfile"
     end
-    # case File.extname(file.original_filename)
-    # when ".csv" then CSV.new(file.path)
-    # else raise "Unknown file type: #{file.original_filename}"
-    # end
   end
 end
